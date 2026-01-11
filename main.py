@@ -10,8 +10,8 @@ state = {
 
 while True:
     user_input = input("User: ")
-    state["messages"].append(user_input)
 
+    # Capture lead details without polluting conversation history
     if state["intent"] == "high_intent":
         if state["name"] is None:
             state["name"] = user_input
@@ -19,6 +19,10 @@ while True:
             state["email"] = user_input
         elif state["platform"] is None:
             state["platform"] = user_input
+        else:
+            state["messages"].append(user_input)
+    else:
+        state["messages"].append(user_input)
 
     state = agent_app.invoke(state)
     print("Agent:", state["messages"][-1])
